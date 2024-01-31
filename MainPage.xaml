@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:res="clr-namespace:ListViewNestedBinding.Resources"
+             xmlns:viewmodel="clr-namespace:ListViewNestedBinding.ViewModels"
+             xmlns:model="clr-namespace:ListViewNestedBinding.Models"
+             xmlns:local="clr-namespace:ListViewNestedBinding"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:data="clr-namespace:Syncfusion.Maui.DataSource;assembly=Syncfusion.Maui.DataSource"
+             xmlns:ext="clr-namespace:Syncfusion.Maui.DataSource.Extensions;assembly=Syncfusion.Maui.DataSource"
+             x:Class="ListViewNestedBinding.MainPage"
+             x:DataType="viewmodel:MainViewModel">
+
+    <Grid Margin="5" 
+          ColumnDefinitions="Auto, *"
+          RowDefinitions="*"
+          ColumnSpacing="5"
+          >
+        <syncfusion:SfListView Grid.Row="0" 
+                               Grid.Column="0"
+                               ItemsSource="{Binding Models}"
+                               SelectedItem="{Binding Models.SelectedItem, Mode=TwoWay}"
+                               ItemTemplate="{StaticResource ListItemTemplate}"
+                               SelectionMode="Single"
+                               IsStickyGroupHeader="True"
+                               AllowGroupExpandCollapse="True"
+                               GroupHeaderTemplate="{StaticResource GroupHeaderTemplate}"
+                               VerticalOptions="Fill"
+                               HorizontalOptions="Center"
+                               >
+            <syncfusion:SfListView.DataSource>
+                <data:DataSource LiveDataUpdateMode="AllowDataShaping">
+                    <data:DataSource.GroupDescriptors>
+                        <!-- ISSUE: When binding to Meta.Theme (MetaModel.Meta.Theme), Groups do not update.
+                             When binding to the relay property Theme (MetaModel.Theme), Groups update as expected.
+                        -->
+                        <data:GroupDescriptor PropertyName="Meta.Theme">
+                            <data:GroupDescriptor.Comparer>
+                                <model:ThemeComparer/>
+                            </data:GroupDescriptor.Comparer>
+                        </data:GroupDescriptor>
+                    </data:DataSource.GroupDescriptors>
+                </data:DataSource>
+            </syncfusion:SfListView.DataSource>
+        </syncfusion:SfListView>
+
+        <local:PropertiesView Grid.Row="0"
+                              Grid.Column="1"
+                              BindingContext="{Binding Models.SelectedItem}"
+                              HorizontalOptions="Fill"
+                              VerticalOptions="Fill"
+                              />
+
+    </Grid>
+
+</ContentPage>
