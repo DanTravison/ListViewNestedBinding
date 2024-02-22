@@ -1,3 +1,8 @@
+# Status
+
+Confirmed The [nested binding](https://www.syncfusion.com/forums/186474/dynamically-updating-groupdescriptor-propertyname)
+issue is fixed with Syncfusion.Maui.ListView 24.2.7
+
 # Dynamically updating GroupDescriptor PropertyName
 
 This project reproduces the issue where the GroupDescriptor PropertyName is not updated 
